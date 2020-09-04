@@ -1,0 +1,98 @@
+//Run a Request
+
+//run request from same TestCase
+def status = testRunner.runTestStepByName("TestStepName")
+def result = status.getStatus().toString();
+log.info ("   ---- "+result)
+
+//run request from another TestCase or TestSuite
+project = testRunner.testCase.testSuite.project ;
+tcase = project.testSuites["TestSuiteName"].testCases["TestCaseName"] ; 
+tstep = tcase.getTestStepByName("TestStepName");
+def status = tstep.run(testRunner, context)
+def result = status.getStatus().toString();
+log.info ("   ----   "+result)
+
+=====================================================================================================================================================
+
+//Run a Test Case
+//This groovy script should be in another test case. Otherwise test case will loop
+
+//run test case
+def tCase = testRunner.testCase.testSuite.testCases["TestCaseName"]
+runner = tCase.run(new com.eviware.soapui.support.types.StringToObjectMap(), false);
+
+//loop test cases in a test suite
+def testCases = context.testCase.testSuite.getTestCaseList() 
+testCases.each{
+log.info(it.name)
+}
+
+
+//command line run
+Right click on test case --> Launch Test Runner --> get commands --> paste in cmd
+cd C:\Program Files\SmartBear\SoapUI-5.4.0\bin\
+testrunner.bat -sTestSuite3 -cTestCase2 "C:\Users\Raghav Pal\OneDrive\Projects\SoapUIProjects\CountryInfoService-soapui-project1.xml"
+
+
+=====================================================================================================================================================
+
+// Run Test Suite
+//This groovy script should be in another test suite. Otherwise test case will loop
+
+def suite = context.testCase.testSuite.project.testSuites["TestSuiteName"]
+suite.run(null,false)
+// null can be replaced with : new com.eviware.soapui.support.types.StringToObjectMap()
+log.info ("   ===   "+suite.getName().toString()+" - Executed successfully")
+
+
+//command line run
+Right click on test suite--> Launch Test Runner --> get commands --> paste in cmd
+cd  C:\Program Files\SmartBear\SoapUI-5.4.0\bin\
+testrunner.bat -sTestSuite2 -j -f"C:\Users\Raghav Pal\Desktop" "C:\Users\Raghav Pal\OneDrive\Projects\SoapUIProjects\CountryInfoService-soapui-project1.xml"
+
+
+
+==========================================================================================================================================================
+
+//Run Project
+//This groovy script should be in another Project. Otherwise test case will loop
+
+def projectName=testRunner.getTestCase().getTestSuite().getProject().getWorkspace().getProjectByName("REST Project 1")
+projectName.run(null,true)
+//projectName.run(new com.eviware.soapui.support.types.StringToObjectMap(), false)
+
+//command line run
+Right click on project --> Launch Test Runner --> get commands --> paste in cmd
+cd C:\Program Files\SmartBear\SoapUI-5.4.0\bin\
+testrunner.bat -j -f"C:\Users\Raghav Pal\Desktop" "C:\Users\Raghav Pal\OneDrive\Projects\SoapUIProjects\CountryInfoService-soapui-project1.xml"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

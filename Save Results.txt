@@ -1,0 +1,24 @@
+File resultFile = new File("C:/Users/CHATHURI/Documents/SOAPUI/Cal_Result.csv")
+
+def myTestCase = context.testCase
+def prostep = myTestCase.getTestStepByName("TestData")
+def APIRequest = myTestCase.getTestStepByName("Add_zero")
+
+def Int1 = prostep.getPropertyValue("Int1")
+def Int2 = prostep.getPropertyValue("Int2")
+def Sum = prostep.getPropertyValue("sum")
+def message = "";
+def Status = "Pass"
+
+for( assertion in APIRequest.assertionList )
+  {
+               if(assertion.status.toString() == "FAILED")
+
+               {
+                              Status = "Failed"
+               }
+  }
+
+Date today = new Date()
+
+resultFile.append(Int1 + "," + Int2 + "," + Sum + "," + Status + "," + today+ "\"\n")
